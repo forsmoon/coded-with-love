@@ -3,19 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>for smoon !</title>
+    <title>A Special Surprise</title>
     <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
     <style>
         /* --- MAIN LAYOUT --- */
         body {
             background: linear-gradient(135deg, #f4e1f8 0%, #e0ecfa 100%);
             display: flex;
+            flex-direction: column; /* Added for better vertical flow */
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            min-height: 100vh; /* Changed from height to min-height */
             margin: 0;
             font-family: 'Quicksand', sans-serif;
-            overflow: hidden;
+            overflow-x: hidden; /* Changed from hidden to allow vertical scroll */
+            padding: 20px 0; /* Added space at top/bottom for scrolling */
         }
 
         /* --- 1. BACKGROUND ANIMATIONS --- */
@@ -62,6 +64,7 @@
             position: relative;
             cursor: pointer;
             transition: transform 0.5s;
+            z-index: 20;
         }
         
         #envelope-wrapper:hover {
@@ -171,35 +174,35 @@
             display: none;
         }
 
-        /* --- 3. THE ACTUAL LETTER (Hidden Start) --- */
+        /* --- 3. THE ACTUAL LETTER --- */
         .letter-container {
             display: none;
             background-color: #fffaf0;
-            width: 80%;
+            width: 85%;
             max-width: 600px;
-            padding: 50px;
-            border-radius: 30px;
+            padding: 40px;
+            border-radius: 20px;
             border: 4px dashed #ffbdd8;
             box-shadow: 0 10px 30px rgba(255, 182, 193, 0.4);
             line-height: 1.6;
             font-size: 22px;
             font-family: 'Indie Flower', cursive;
             color: #5d4e65;
-            min-height: 300px;
-            word-wrap: break-word;
             position: relative;
             z-index: 10;
             opacity: 0;
             transition: opacity 1s;
+            box-sizing: border-box; /* Ensures padding doesn't break width */
+            margin-bottom: 50px; /* Space for the footer */
         }
 
         .flower-decoration {
             position: absolute;
-            top: 25px;
-            right: 25px;
-            width: 100px;
+            top: 15px;
+            right: 15px;
+            width: 80px;
             height: auto;
-            opacity: 0.9;
+            opacity: 0.8;
         }
 
         #typing-output::after {
@@ -209,21 +212,26 @@
             font-weight: bold;
         }
 
+        @keyframes blink {
+            from, to { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
         /* --- 4. FOOTER CREDIT --- */
         .footer-credit {
-            position: fixed;
-            bottom: 15px;
-            right: 20px;
+            position: relative; /* Changed from fixed for better scrolling */
+            margin-top: 20px;
             font-family: 'Quicksand', sans-serif;
             font-size: 14px;
             color: #8c8c8c;
             z-index: 100;
             opacity: 0.8;
+            text-align: center;
         }
 
         @media (max-width: 600px) {
-            .letter-container { width: 90%; padding: 25px; font-size: 18px; }
-            .flower-decoration { width: 60px; top: 15px; right: 15px; }
+            .letter-container { width: 92%; padding: 25px; font-size: 19px; }
+            .flower-decoration { width: 50px; }
         }
 
     </style>
@@ -249,7 +257,7 @@
 
     <div class="letter-container" id="main-letter">
         <img src="flowers.png" class="flower-decoration" alt="Flowers">
-        <span id="typing-output"></span>
+        <div id="typing-output"></div>
     </div>
 
     <div class="footer-credit">coded with love by Lester❤️</div>
@@ -269,7 +277,7 @@ wannaa sayy koll amm w ennti hayya b alf khirr smoon nchallaah amm full of succe
 You're the best ahla smoon!,
 Yours Dhia.`;
 
-        const typingSpeed = 60; 
+        const typingSpeed = 50; 
 
         // --- ELEMENTS ---
         const envelopeWrapper = document.getElementById('envelope-wrapper');
@@ -306,6 +314,10 @@ Yours Dhia.`;
                     outputElement.innerHTML += currentChar;
                 }
                 charIndex++;
+                
+                // Auto-scroll as it types so the user sees the new text
+                window.scrollTo(0, document.body.scrollHeight);
+                
                 setTimeout(startTyping, typingSpeed);
             }
         }
@@ -318,7 +330,7 @@ Yours Dhia.`;
             const x = Math.random() * window.innerWidth;
             const y = Math.random() * window.innerHeight;
             const color = colors[Math.floor(Math.random() * colors.length)];
-            for (let i = 0; i < 20; i++) createParticle(x, y, color);
+            for (let i = 0; i < 15; i++) createParticle(x, y, color);
         }, 2000);
 
         function createParticle(x, y, color) {
@@ -330,17 +342,16 @@ Yours Dhia.`;
             bgContainer.appendChild(particle);
             
             const angle = Math.random() * Math.PI * 2;
-            const velocity = 50 + Math.random() * 100;
+            const velocity = 40 + Math.random() * 60;
             const tx = Math.cos(angle) * velocity;
             const ty = Math.sin(angle) * velocity;
 
             particle.animate([
                 { transform: 'translate(0, 0)', opacity: 1 },
                 { transform: `translate(${tx}px, ${ty}px)`, opacity: 0 }
-            ], { duration: 1500 + Math.random() * 1000, easing: 'ease-out' })
+            ], { duration: 1000 + Math.random() * 1000, easing: 'ease-out' })
             .onfinish = () => particle.remove();
         }
     </script>
 </body>
-
 </html>
